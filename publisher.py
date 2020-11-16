@@ -1,8 +1,13 @@
+'''
+Created By Himanshu Sharma
+Date : 16/11/2020
+'''
+
 from kombu import Connection, Exchange, Producer
 from kombu.exceptions import KombuError
 
 class Config(object):
-    rabbit_mq_host = 'amqp://localhost:5672/'
+    rabbit_mq_host = 'amqp://localhost'
     rabbit_mq_exchange = 'test-exchange'
     rabbit_mq_routing_key = 'test-key'
     rabbit_mq_queue = 'test'
@@ -42,14 +47,13 @@ class RabbitMQSender(object):
             producer = Producer(connection,
                                 exchange=self._exchange,
                                 routing_key=Config.rabbit_mq_routing_key)
-
             payload = message.payload()
-
             producer.declare()
-
             producer.publish(payload, exchange=self._exchange, routing_key=Config.rabbit_mq_routing_key)
 
 
+
+'''Create a Message Object which we want to pass as payload'''
 if __name__ == '__main__':
     Message = Config("Test")
     sender = RabbitMQSender()
